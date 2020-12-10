@@ -3,10 +3,12 @@ package com.clearminds.acb.servicios;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Date;
 
 import com.clearminds.acb.bdd.ConexionBDD;
 import com.clearminds.acb.dtos.Estudiante;
 import com.clearminds.acb.excepciones.BDDException;
+import com.clearminds.acb.utils.DateUtil;
 
 public class ServicioEstudiante extends ServicioBase {
 
@@ -27,8 +29,9 @@ public class ServicioEstudiante extends ServicioBase {
 		try {
 			if(ConexionBDD.obtenerConexion()!=null) {
 				stm = ConexionBDD.obtenerConexion().createStatement();
-				String sql = "insert into estudiantes (nombre, apellido, edad) "
-						+ "values('"+estudiante.getNombre()+"','"+estudiante.getApellido()+"',"+estudiante.getEdad()+")";
+				String sql = "insert into estudiantes (nombre, apellido, edad, fecha_modificacion) "
+						+ "values('"+estudiante.getNombre()+"','"+estudiante.getApellido()
+						+"',"+estudiante.getEdad()+",'"+DateUtil.obtenerFecha(new Date())+"')";
 				
 				System.out.println("Script: "+sql);
 				
@@ -49,7 +52,8 @@ public class ServicioEstudiante extends ServicioBase {
 			if(ConexionBDD.obtenerConexion()!=null) {
 				stm = ConexionBDD.obtenerConexion().createStatement();
 				String sql = "update estudiantes set nombre = '"+estudiante.getNombre()
-						+ "' , apellido = '"+estudiante.getApellido()+"'"+" ,edad = "+estudiante.getEdad() +" where id ="+estudiante.getId();
+						+ "' , apellido = '"+estudiante.getApellido()+"'"+" ,edad = "+estudiante.getEdad()
+						+", fecha_modificacion = '"+DateUtil.obtenerFecha(new Date()) +"' where id ="+estudiante.getId();
 				
 				System.out.println("Script: "+sql);
 				
